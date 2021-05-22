@@ -1,6 +1,8 @@
 package com.example.idus.service;
 
 import com.example.idus.domain.User;
+import com.example.idus.infrastructure.exception.ErrorCode;
+import com.example.idus.infrastructure.exception.list.InvalidValueException;
 import com.example.idus.infrastructure.repository.UserRepository;
 import com.example.idus.presentation.dto.UserSignupRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +32,7 @@ public class UserService {
 
     private void checkRegisteredEmail(UserSignupRequest userSignupRequest) {
         userRepository.findByEmail(userSignupRequest.getEmail()).ifPresent(user -> {
-            throw new RuntimeException();
+            throw new InvalidValueException(userSignupRequest.getEmail(), ErrorCode.EMAIL_DUPLICATION);
         });
     }
 }

@@ -1,6 +1,7 @@
 package com.example.idus.service;
 
 import com.example.idus.domain.User;
+import com.example.idus.infrastructure.exception.list.BusinessException;
 import com.example.idus.infrastructure.repository.UserRepository;
 import com.example.idus.presentation.dto.UserSignupRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +39,7 @@ class UserServiceTest {
                 .willReturn(java.util.Optional.ofNullable(user));
 
         //when
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             userService.signup(userSignupRequest);
         });
 
