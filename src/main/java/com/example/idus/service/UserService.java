@@ -21,9 +21,16 @@ public class UserService {
 
     @Transactional
     public void signup(UserSignupRequest userSignupRequest) {
+        checkRegisteredEmail(userSignupRequest);
+
         User user = userSignupRequest.toEntity();
 
         userRepository.save(user);
     }
 
+    private void checkRegisteredEmail(UserSignupRequest userSignupRequest) {
+        userRepository.findByEmail(userSignupRequest.getEmail()).ifPresent(user -> {
+            throw new RuntimeException();
+        });
+    }
 }

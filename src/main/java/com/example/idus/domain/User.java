@@ -17,7 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false, unique = true, updatable = false)
+    @Column(length = 20, nullable = false)
     private String name;
 
     @Column(length = 30, nullable = false)
@@ -30,9 +30,10 @@ public class User {
     @Column(length = 20, nullable = false)
     private Long phoneNumber;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, nullable = false, unique = true, updatable = false)
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Builder
