@@ -1,6 +1,7 @@
 package com.example.idus.presentation.controller;
 
 import com.example.idus.presentation.dto.UserSignupRequest;
+import com.example.idus.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +15,15 @@ import javax.validation.Valid;
 @RequestMapping(path = "/api/user")
 public class UserController {
 
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping(path = "/signup")
     public String userSignup(@RequestBody @Valid UserSignupRequest userSignupRequest) {
-
-        log.info(userSignupRequest.toString());
+        userService.signup(userSignupRequest);
 
         return "redirect:/";
     }

@@ -1,5 +1,6 @@
 package com.example.idus.presentation.dto;
 
+import com.example.idus.domain.User;
 import com.example.idus.infrastructure.enums.Gender;
 import lombok.*;
 
@@ -33,4 +34,15 @@ public class UserSignupRequest {
     private String email;
 
     private Gender gender;
+
+    public User toEntity() {
+        return User.builder()
+                .name(getName())
+                .nickname(getNickname())
+                .password(getPassword())
+                .phoneNumber(Long.valueOf(getPhoneNumber().replaceAll("-", "")))
+                .email(getEmail())
+                .gender(getGender())
+                .build();
+    }
 }
