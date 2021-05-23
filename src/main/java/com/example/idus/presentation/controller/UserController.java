@@ -1,7 +1,9 @@
 package com.example.idus.presentation.controller;
 
 import com.example.idus.infrastructure.exception.ErrorResponse;
-import com.example.idus.presentation.dto.UserSignupRequest;
+import com.example.idus.presentation.dto.request.LoginRequest;
+import com.example.idus.presentation.dto.request.SignupRequest;
+import com.example.idus.presentation.dto.response.LoginResponse;
 import com.example.idus.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,9 +33,17 @@ public class UserController {
             @ApiResponse(code = 400, message = "Fail, Email is Duplication.", response = ErrorResponse.class),
     })
     @PostMapping(path = "/signup")
-    public String userSignup(@RequestBody @Valid UserSignupRequest userSignupRequest) {
-        userService.signup(userSignupRequest);
+    public String userSignup(@RequestBody @Valid SignupRequest signupRequest) {
+        userService.signup(signupRequest);
 
         return "redirect:/";
+    }
+
+    @PostMapping(path = "/login")
+    public LoginResponse login(@RequestBody @Valid LoginRequest loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        return userService.login(email, password);
     }
 }

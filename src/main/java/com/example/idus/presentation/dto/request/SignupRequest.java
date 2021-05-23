@@ -1,21 +1,22 @@
-package com.example.idus.presentation.dto;
+package com.example.idus.presentation.dto.request;
 
 import com.example.idus.domain.User;
 import com.example.idus.infrastructure.enums.Gender;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @ApiModel("유저 생성 요청")
-public class UserSignupRequest {
+public class SignupRequest {
     @ApiModelProperty(example = "가힣azAZ", required = true)
     @NotBlank(message = "name is mandatory")
     @Pattern(regexp = "^[가-힣a-zA-Z]+$")
@@ -44,11 +45,11 @@ public class UserSignupRequest {
     @ApiModelProperty(example = "MEN")
     private Gender gender;
 
-    public User toEntity() {
+    public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .name(getName())
                 .nickname(getNickname())
-                .password(getPassword())
+                .password(passwordEncoder.encode(getPassword()))
                 .phoneNumber(Long.valueOf(getPhoneNumber().replaceAll("-", "")))
                 .email(getEmail())
                 .gender(getGender())
