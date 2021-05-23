@@ -75,7 +75,7 @@ class UserServiceTest {
                 .willReturn("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG5hdmVyLmNvbSIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE2MjE3NTc4MjksImV4cCI6MTYyMTc1ODcyOX0.2YtVqaJzaO2w98qSNS-cpmSgP9OFbxVzPoDyAwa_FL0");
         given(jwtTokenUtil.createJwtRefreshToken(postToken))
                 .willReturn("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG5hdmVyLmNvbSIsImlhdCI6MTYyMTc1NzgyOSwiZXhwIjoxNjIyOTY3NDI5fQ.xmnnnksiq20bVMjPMsIfn4m9h7pmIei4XLEHdkEi3Js");
-        given(jwtTokenUtil.getJwtExpirationInMillis())
+        given(jwtTokenUtil.getAccessJwtExpirationInMillis())
                 .willReturn(15 * 60 * 1000L);
 
         //when

@@ -103,7 +103,11 @@ public class JwtTokenUtil {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
     }
 
-    public Long getJwtExpirationInMillis() {
+    public Long getAccessJwtExpirationInMillis() {
         return ACCESS_TOKEN_VALID_TIME;
+    }
+
+    public Long getRefreshJwtExpirationInMillis() {
+        return REFRESH_TOKEN_VALID_TIME;
     }
 }
