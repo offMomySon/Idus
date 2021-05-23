@@ -15,7 +15,12 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
 
     // User
-    EMAIL_DUPLICATION(400, "U001", "Email is Duplication");
+    EMAIL_DUPLICATION(400, "U001", "Email is Duplication"),
+    EMAIL_NOT_FOUND(400, "U002", "Email Not Found"),
+
+    // Token
+    TOKEN_NOT_FOUND(400, "T001", "Token Not Found"),
+    TOKEN_OWNER_DIFF(400, "T002", "Token Owner different");
 
     private int status;
     private String code;

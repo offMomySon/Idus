@@ -7,9 +7,11 @@ import com.example.idus.infrastructure.jwt.JwtTokenUtil;
 import com.example.idus.infrastructure.repository.UserRepository;
 import com.example.idus.infrastructure.repository.redis.RefreshTokenRepository;
 import com.example.idus.presentation.dto.request.LogoutRequest;
+import com.example.idus.presentation.dto.request.RefreshRequest;
 import com.example.idus.presentation.dto.request.SignupRequest;
 import com.example.idus.presentation.dto.response.LoginResponse;
 import com.example.idus.presentation.dto.response.LogoutResponse;
+import com.example.idus.presentation.dto.response.RefreshResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +103,39 @@ class UserServiceTest {
 
         //then
         assertThat(logoutResponse.getSuccess()).isEqualTo(Boolean.TRUE);
+    }
+
+    @Test
+    void successCreateRefreshToken() {
+        //given
+        String refsToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG5hdmVyLmNvbSIsImlhdCI6MTYyMTc1NzgyOSwiZXhwIjoxNjIyOTY3NDI5fQ.xmnnnksiq20bVMjPMsIfn4m9h7pmIei4XLEHdkEi3Js";
+        String testId = "test@naver.com";
+        RefreshToken refreshToken = RefreshToken.builder()
+                .id(refsToken)
+                .email(testId)
+                .build();
+        refreshTokenRepository.save(refreshToken);
+
+        RefreshRequest refreshRequest = new RefreshRequest();
+        refreshRequest.setEmail(testId);
+        refreshRequest.setRefreshToken(refsToken);
+
+        SignupRequest signupRequest = new SignupRequest();
+        signupRequest.setName("testName");
+        signupRequest.setNickname("testNickName");
+        signupRequest.setPassword("1aA!111111");
+        signupRequest.setPhoneNumber("010-7177-1111");
+        signupRequest.setEmail(testId);
+
+        //mocking
+        User user = signupRequest.toEntity(passwordEncoder);
+        given(userRepository.findByEmail(testId))
+                .willReturn(java.util.Optional.ofNullable(user));
+
+        //when
+        RefreshResponse logoutResponse = userService.createToken(refreshRequest.getEmail(), refreshRequest.getRefreshToken());
+
+        //then
+        assertThat(logoutResponse.getRefreshToken()).isNotBlank();
     }
 }
