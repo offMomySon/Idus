@@ -9,6 +9,7 @@ import com.example.idus.infrastructure.repository.UserRepository;
 import com.example.idus.infrastructure.repository.redis.RefreshTokenRepository;
 import com.example.idus.presentation.dto.request.SignupRequest;
 import com.example.idus.presentation.dto.response.LoginResponse;
+import com.example.idus.presentation.dto.response.LogoutResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+
+import static java.lang.Boolean.TRUE;
 
 @Slf4j
 @Service
@@ -48,6 +52,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public LoginResponse login(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
@@ -66,6 +71,22 @@ public class UserService {
                 .expiresAt(Instant.now().plusMillis(jwtTokenUtil.getAccessJwtExpirationInMillis()))
                 .email(email)
                 .build();
+    }
+
+    @Transactional
+    public LogoutResponse logout(String refreshToken) {
+        deleteRefreshToken(refreshToken);
+
+        return LogoutResponse.builder()
+                .success(TRUE)
+                .logoutTime(LocalDateTime.now())
+                .build();
+    }
+
+    private void deleteRefreshToken(String refreshToken) {
+        refreshTokenRepository.findById(refreshToken).ifPresent(foundRefreshToken -> {
+            refreshTokenRepository.delete(foundRefreshToken);
+        });
     }
 
     private void checkRegisteredEmail(SignupRequest signupRequest) {

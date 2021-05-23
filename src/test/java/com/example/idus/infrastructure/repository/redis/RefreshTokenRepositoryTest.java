@@ -14,8 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RefreshTokenRepositoryTest {
     @Autowired
     RefreshTokenRepository refreshTokenRepository;
-    @Autowired
-    RedisService redisService;
 
     @DisplayName("save and delete refresh token test")
     @Test
