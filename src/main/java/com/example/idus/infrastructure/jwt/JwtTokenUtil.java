@@ -106,8 +106,4 @@ public class JwtTokenUtil {
     public Long getAccessJwtExpirationInMillis() {
         return ACCESS_TOKEN_VALID_TIME;
     }
-
-    public Long getRefreshJwtExpirationInMillis() {
-        return REFRESH_TOKEN_VALID_TIME;
-    }
 }

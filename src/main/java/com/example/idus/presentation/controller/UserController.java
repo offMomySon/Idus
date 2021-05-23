@@ -3,9 +3,11 @@ package com.example.idus.presentation.controller;
 import com.example.idus.infrastructure.exception.ErrorResponse;
 import com.example.idus.presentation.dto.request.LoginRequest;
 import com.example.idus.presentation.dto.request.LogoutRequest;
+import com.example.idus.presentation.dto.request.RefreshRequest;
 import com.example.idus.presentation.dto.request.SignupRequest;
 import com.example.idus.presentation.dto.response.LoginResponse;
 import com.example.idus.presentation.dto.response.LogoutResponse;
+import com.example.idus.presentation.dto.response.RefreshResponse;
 import com.example.idus.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -56,5 +58,13 @@ public class UserController {
         String refreshToken = logoutRequest.getRefreshToken();
 
         return userService.logout(refreshToken);
+    }
+
+    @PostMapping(path = "/token")
+    public RefreshResponse refreshToken(@RequestBody RefreshRequest tokenRequest) {
+        String email = tokenRequest.getEmail();
+        String refreshToken = tokenRequest.getRefreshToken();
+
+        return userService.createToken(email, refreshToken);
     }
 }
