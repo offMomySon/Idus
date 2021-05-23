@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
-class UserServiceTest {
+class AuthServiceTest {
     @Autowired
-    UserService userService;
+    AuthService authService;
     @MockBean
     UserRepository userRepository;
     @Autowired
@@ -57,7 +57,7 @@ class UserServiceTest {
 
         //when
         assertThrows(BusinessException.class, () -> {
-            userService.signup(signupRequest);
+            authService.signup(signupRequest);
         });
 
         //then
@@ -74,10 +74,10 @@ class UserServiceTest {
         signupRequest.setPhoneNumber("010-7177-1111");
         signupRequest.setEmail("testfor123_testfor123_testfor123@naver.com");
 
-        userService.signup(signupRequest);
+        authService.signup(signupRequest);
 
         //when
-        LoginResponse loginResponse = userService.login(signupRequest.getEmail(), signupRequest.getPassword());
+        LoginResponse loginResponse = authService.login(signupRequest.getEmail(), signupRequest.getPassword());
 
         //then
         assertNotNull(loginResponse.getAccessToken());
@@ -99,7 +99,7 @@ class UserServiceTest {
         logoutRequest.setRefreshToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG5hdmVyLmNvbSIsImlhdCI6MTYyMTc1NzgyOSwiZXhwIjoxNjIyOTY3NDI5fQ.xmnnnksiq20bVMjPMsIfn4m9h7pmIei4XLEHdkEi3Js");
 
         //when
-        LogoutResponse logoutResponse = userService.logout(logoutRequest.getRefreshToken());
+        LogoutResponse logoutResponse = authService.logout(logoutRequest.getRefreshToken());
 
         //then
         assertThat(logoutResponse.getSuccess()).isEqualTo(Boolean.TRUE);
@@ -133,7 +133,7 @@ class UserServiceTest {
                 .willReturn(java.util.Optional.ofNullable(user));
 
         //when
-        RefreshResponse logoutResponse = userService.createToken(refreshRequest.getEmail(), refreshRequest.getRefreshToken());
+        RefreshResponse logoutResponse = authService.createToken(refreshRequest.getEmail(), refreshRequest.getRefreshToken());
 
         //then
         assertThat(logoutResponse.getRefreshToken()).isNotBlank();

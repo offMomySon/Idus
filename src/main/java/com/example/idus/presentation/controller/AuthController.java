@@ -8,7 +8,7 @@ import com.example.idus.presentation.dto.request.SignupRequest;
 import com.example.idus.presentation.dto.response.LoginResponse;
 import com.example.idus.presentation.dto.response.LogoutResponse;
 import com.example.idus.presentation.dto.response.RefreshResponse;
-import com.example.idus.service.UserService;
+import com.example.idus.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,13 +24,13 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/user")
-public class UserController {
+@RequestMapping(path = "/api/auth")
+public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @ApiOperation(value = "유저 등록", notes = "성공시 유저등록.")
@@ -39,8 +39,8 @@ public class UserController {
             @ApiResponse(code = 400, message = "Fail, Email is Duplication.", response = ErrorResponse.class),
     })
     @PostMapping(path = "/signup")
-    public ResponseEntity<String> userSignup(@RequestBody @Valid SignupRequest signupRequest) {
-        userService.signup(signupRequest);
+    public ResponseEntity<String> signup(@RequestBody @Valid SignupRequest signupRequest) {
+        authService.signup(signupRequest);
 
         return new ResponseEntity<>("User registration successful", HttpStatus.OK);
     }
@@ -50,21 +50,21 @@ public class UserController {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
-        return userService.login(email, password);
+        return authService.login(email, password);
     }
 
     @PostMapping(path = "/logout")
     public LogoutResponse logout(@RequestBody @Valid LogoutRequest logoutRequest) {
         String refreshToken = logoutRequest.getRefreshToken();
 
-        return userService.logout(refreshToken);
+        return authService.logout(refreshToken);
     }
 
     @PostMapping(path = "/token")
-    public RefreshResponse refreshToken(@RequestBody RefreshRequest tokenRequest) {
+    public RefreshResponse refreshToken(@RequestBody @Valid RefreshRequest tokenRequest) {
         String email = tokenRequest.getEmail();
         String refreshToken = tokenRequest.getRefreshToken();
 
-        return userService.createToken(email, refreshToken);
+        return authService.createToken(email, refreshToken);
     }
 }
