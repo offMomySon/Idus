@@ -29,15 +29,14 @@ import static java.lang.Boolean.TRUE;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-public class UserService {
-
+public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, RefreshTokenRepository refreshTokenRepository) {
+    public AuthService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, RefreshTokenRepository refreshTokenRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
