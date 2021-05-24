@@ -1,6 +1,7 @@
 package com.example.idus.service;
 
 import com.example.idus.domain.User;
+import com.example.idus.infrastructure.repository.OrderRepository;
 import com.example.idus.infrastructure.repository.UserRepository;
 import com.example.idus.presentation.dto.request.SignupRequest;
 import com.example.idus.presentation.dto.response.UserMeResponse;
@@ -25,6 +26,8 @@ class UserServiceTest {
     MeService meService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    OrderRepository orderRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
 

@@ -5,8 +5,8 @@ import com.example.idus.presentation.dto.response.UserResponse;
 import com.example.idus.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -20,8 +20,9 @@ public class UserController {
         return userService.getMeInfo();
     }
 
-    @GetMapping("/{email}")
-    public UserResponse getUser(@PathVariable String email) throws Exception {
+    @GetMapping()
+    public UserResponse getUser(@RequestParam String email) {
         return userService.getUserInfo(email);
     }
+    
 }
