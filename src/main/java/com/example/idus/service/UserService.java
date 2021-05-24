@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final MeService meService;
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public UserService(MeService meService) {
+    public UserService(MeService meService, UserRepository userRepository) {
         this.meService = meService;
+        this.userRepository = userRepository;
     }
 
     public UserMeResponse getMeInfo() throws Exception {
