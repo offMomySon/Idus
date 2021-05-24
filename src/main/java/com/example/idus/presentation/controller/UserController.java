@@ -1,5 +1,6 @@
 package com.example.idus.presentation.controller;
 
+import com.example.idus.presentation.dto.response.OrderQueryResponse;
 import com.example.idus.presentation.dto.response.UserMeResponse;
 import com.example.idus.presentation.dto.response.UserResponse;
 import com.example.idus.service.UserService;
@@ -21,7 +22,12 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public UserResponse getUser(@PathVariable String email) throws Exception {
+    public UserResponse getUser(@PathVariable String email) {
         return userService.getUserInfo(email);
+    }
+
+    @GetMapping("/order/{email}")
+    public OrderQueryResponse getOrder(@PathVariable String email) {
+        return userService.getOrder(email);
     }
 }

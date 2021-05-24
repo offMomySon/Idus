@@ -1,8 +1,11 @@
 package com.example.idus.service;
 
+import com.example.idus.domain.Order;
 import com.example.idus.domain.User;
+import com.example.idus.infrastructure.repository.OrderRepository;
 import com.example.idus.infrastructure.repository.UserRepository;
 import com.example.idus.presentation.dto.request.SignupRequest;
+import com.example.idus.presentation.dto.response.OrderQueryResponse;
 import com.example.idus.presentation.dto.response.UserMeResponse;
 import com.example.idus.presentation.dto.response.UserResponse;
 import org.junit.jupiter.api.Test;
@@ -12,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,6 +29,8 @@ class UserServiceTest {
     MeService meService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    OrderRepository orderRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -70,5 +76,44 @@ class UserServiceTest {
 
         //then
         assertThat(userInfo.getEmail()).isEqualTo(userEmail);
+    }
+
+    @Test
+    void successGetOrder() {
+        //given
+        String email = UUID.randomUUID().toString().replace("-", "") + "@naver.com";
+        User user = userRepository.save(
+                User.builder()
+                        .phoneNumber(177717171L)
+                        .gender(null)
+                        .nickname("test")
+                        .name("test")
+                        .email(email)
+                        .password(passwordEncoder.encode("1aA!111111"))
+                        .build()
+        );
+
+        orderRepository.save(
+                Order.builder()
+                        .orderNumber("TEST1")
+                        .orderDate(LocalDateTime.now())
+                        .itemName("now")
+                        .user(user)
+                        .build()
+        );
+        orderRepository.save(
+                Order.builder()
+                        .orderNumber("TEST2")
+                        .orderDate(LocalDateTime.now())
+                        .itemName("now")
+                        .user(user)
+                        .build()
+        );
+
+        //when
+        OrderQueryResponse orderQueryResponse = userService.getOrder(email);
+
+        //then
+        assertThat(orderQueryResponse.getItems().size()).isEqualTo(2);
     }
 }
