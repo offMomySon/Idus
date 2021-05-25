@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.time.Instant;
 
-@ApiModel("Refresh token 재생성 응답")
+@ApiModel("Refresh token 재발급 응답")
 @Data
 @Builder
 public class RefreshResponse {
@@ -15,5 +15,6 @@ public class RefreshResponse {
     public String refreshToken;
     @ApiModelProperty(example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtNzE3My0xNDAzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTYxODE0OTUzMSwiZXhwIjoxNjE4MTUxMzMxfQ.RRXxrmaa_1p2Bbz9ndtdKRJ8SsavcwWsKW6TLHA8UUQ")
     public String accessToken;
+    @ApiModelProperty(example = "2021-05-23T08:32:09.113618600Z")
     private Instant expiresAt;
 }

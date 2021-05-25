@@ -69,10 +69,10 @@ public class AuthController {
         return authService.logout(refreshToken);
     }
 
-    @ApiOperation(value = "Refresh token request", notes = "성공시 access token, refresh token 요청.")
+    @ApiOperation(value = "access token 재요청 api", notes = "성공시 access token, refresh token 재생성.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success 로그인 됩니다"),
-            @ApiResponse(code = 400, message = "Token Not Found, Email Not Found", response = ErrorResponse.class),
+            @ApiResponse(code = 200, message = "access token, refresh token 재생성"),
+            @ApiResponse(code = 400, message = "Token Not Found, \t\nRefresh token owner different", response = ErrorResponse.class),
     })
     @PostMapping(path = "/token")
     public RefreshResponse refreshToken(@RequestBody @Valid RefreshRequest tokenRequest) {

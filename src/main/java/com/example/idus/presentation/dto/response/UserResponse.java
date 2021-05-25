@@ -1,17 +1,25 @@
 package com.example.idus.presentation.dto.response;
 
 import com.example.idus.infrastructure.enums.Gender;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
+@ApiModel("유저 정보 응답")
 public class UserResponse {
+    @ApiModelProperty(example = "가힣azAZ")
     private String name;
+    @ApiModelProperty(example = "lettercase")
     private String nickname;
+    @ApiModelProperty(example = "010-1111-1111")
     private Long phoneNumber;
+    @ApiModelProperty(example = "test@naver.com")
     private String email;
+    @ApiModelProperty(example = "MEN")
     private Gender gender;
-
+    
     @Builder
     public UserResponse(String name, String nickname, Long phoneNumber, String email, Gender gender) {
         this.name = name;
