@@ -1,5 +1,6 @@
 package com.example.idus.presentation.controller;
 
+import com.example.idus.presentation.dto.response.OrderQueryResponse;
 import com.example.idus.presentation.dto.response.UserMeResponse;
 import com.example.idus.presentation.dto.response.UserResponse;
 import com.example.idus.service.UserService;
@@ -24,5 +25,4 @@ public class UserController {
     public UserResponse getUser(@RequestParam String email) {
         return userService.getUserInfo(email);
     }
-    
 }
