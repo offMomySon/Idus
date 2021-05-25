@@ -74,7 +74,7 @@ public class SwaggerConfig {
 
         return new ApiInfoBuilder()
                 .title(title)
-                .description("Idus API Docs")
+                .description("Idus API Docs, This service need Redis, to Auth")
                 .version(version)
                 .termsOfServiceUrl("termsOfServiceUrl")
                 .contact(new Contact("Contact Me", "url None", "email None"))

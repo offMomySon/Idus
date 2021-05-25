@@ -45,6 +45,11 @@ public class AuthController {
         return new ResponseEntity<>("User registration successful", HttpStatus.OK);
     }
 
+    @ApiOperation(value = "로그인 api", notes = "성공시 유저등록.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success 로그인 됩니다"),
+            @ApiResponse(code = 400, message = "Fail, Email is Duplication.", response = ErrorResponse.class),
+    })
     @PostMapping(path = "/login")
     public LoginResponse login(@RequestBody @Valid LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
@@ -53,6 +58,10 @@ public class AuthController {
         return authService.login(email, password);
     }
 
+    @ApiOperation(value = "로그인 아웃 api", notes = "성공시 refresh token 삭제")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공시 refresh token 삭제"),
+    })
     @PostMapping(path = "/logout")
     public LogoutResponse logout(@RequestBody @Valid LogoutRequest logoutRequest) {
         String refreshToken = logoutRequest.getRefreshToken();
@@ -60,6 +69,11 @@ public class AuthController {
         return authService.logout(refreshToken);
     }
 
+    @ApiOperation(value = "Refresh token request", notes = "성공시 access token, refresh token 요청.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success 로그인 됩니다"),
+            @ApiResponse(code = 400, message = "Token Not Found, Email Not Found", response = ErrorResponse.class),
+    })
     @PostMapping(path = "/token")
     public RefreshResponse refreshToken(@RequestBody @Valid RefreshRequest tokenRequest) {
         String email = tokenRequest.getEmail();
