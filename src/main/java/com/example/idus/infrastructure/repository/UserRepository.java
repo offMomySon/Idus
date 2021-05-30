@@ -1,12 +1,11 @@
 package com.example.idus.infrastructure.repository;
 
 import com.example.idus.domain.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -17,13 +16,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //            "FROM User user " +
 //            "WHERE user.email LIKE '%' ||:email ||'%' ")
     @Query("select user from User user where user.email LIKE CONCAT('%',:email,'%')   ")
-    Page<User> findByEmailContaining(@Param("email") String email, Pageable pageable);
+    List<User> findByEmailContaining(@Param("email") String email);
 
     @Query("select user from User user where user.name LIKE CONCAT('%',:name,'%')   ")
-    Page<User> findByNameContaining(@Param("name") String name, Pageable pageable);
+    List<User> findByNameContaining(@Param("name") String name);
 
     @Query("select user from User user where user.email LIKE CONCAT('%',:email,'%') AND user.name LIKE CONCAT('%',:name,'%')  ")
-    Page<User> findByNameAndEmailContaining(@Param("email") String email, @Param("name") String name, Pageable pageable);
+    List<User> findByNameAndEmailContaining(@Param("email") String email, @Param("name") String name);
 
 
 //
