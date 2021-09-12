@@ -5,7 +5,7 @@ import com.example.idus.infrastructure.exception.ErrorCode;
 import com.example.idus.infrastructure.exception.list.BusinessException;
 import com.example.idus.infrastructure.repository.OrderRepository;
 import com.example.idus.infrastructure.repository.UserRepository;
-import com.example.idus.presentation.dto.OrderInfo;
+import com.example.idus.presentation.dto.OrderItemQuery;
 import com.example.idus.presentation.dto.response.*;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +55,8 @@ public class UserService {
     }
 
     public OrderQueryResponse getUserOrders(String email) {
+
+
         User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessException(ErrorCode.EMAIL_NOT_FOUND));
 
         List<OrderInfo> orderInfos = orderRepository.findByUserId(user.getId())
@@ -87,6 +89,28 @@ public class UserService {
                 )
                 .pageCount(PAGE_COUNT)
                 .totalContent(memberInfos.size())
+                .totalPage((long) Math.ceil(total / PAGE_COUNT))
+                .hasNext(pageNumber + 1 < totalPages)
+                .isLast(!hasNext)
+                .build();
+    }
+
+    public MembersQueryResponse testGetUsers(String emailSubString, String nameSubString, long pageNumber) {
+        List<OrderItemQuery> orderItemQueries = userRepository.findTopByUserOrderByOrderDateDesc(nameSubString);
+
+        long total = orderItemQueries.size();
+        long totalPages = (int) Math.ceil(total / PAGE_COUNT);
+        boolean hasNext = pageNumber + 1 < totalPages;
+
+        return MembersQueryResponse.builder()
+                .items(Lists.newArrayList(
+                        orderItemQueries.subList(
+                                (int) (pageNumber * PAGE_COUNT),
+                                Math.min((int) (pageNumber * PAGE_COUNT + PAGE_COUNT), orderItemQueries.size()))
+                        )
+                )
+                .pageCount(PAGE_COUNT)
+                .totalContent(orderItemQueries.size())
                 .totalPage((long) Math.ceil(total / PAGE_COUNT))
                 .hasNext(pageNumber + 1 < totalPages)
                 .isLast(!hasNext)

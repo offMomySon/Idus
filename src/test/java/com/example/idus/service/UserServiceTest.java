@@ -4,6 +4,7 @@ import com.example.idus.domain.Order;
 import com.example.idus.domain.User;
 import com.example.idus.infrastructure.repository.OrderRepository;
 import com.example.idus.infrastructure.repository.UserRepository;
+import com.example.idus.presentation.dto.OrderItemQuery;
 import com.example.idus.presentation.dto.request.SignupRequest;
 import com.example.idus.presentation.dto.response.MembersQueryResponse;
 import com.example.idus.presentation.dto.response.OrderQueryResponse;
@@ -133,11 +134,14 @@ class UserServiceTest {
         String findName = "testName1";
         long start = 0;
 
-        MembersQueryResponse membersOrder = userService.getUsers(findEmail, findName, start);
+        MembersQueryResponse membersOrder = userService.testGetUsers(findEmail, findName, start);
 
         //then
         System.out.println("======================");
         System.out.println(membersOrder);
+        for (OrderItemQuery orderItemQuery : membersOrder.getItems()) {
+            System.out.println("email = " + orderItemQuery.getEmail() + ", name = " + orderItemQuery.getName() + ", " + orderItemQuery.getItemName() + ", getOrderNumber = " + orderItemQuery.getOrderNumber() + ", getOrderDate = " + orderItemQuery.getOrderDate());
+        }
         System.out.println("======================");
 
 //        Assertions.assertEquals(plusTwoDays, membersOrder.getItems().get(0).getOrderInfo().getOrderDate());
