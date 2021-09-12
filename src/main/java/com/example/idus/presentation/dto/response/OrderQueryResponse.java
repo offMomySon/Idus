@@ -1,6 +1,5 @@
 package com.example.idus.presentation.dto.response;
 
-import com.example.idus.presentation.dto.OrderInfo;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
