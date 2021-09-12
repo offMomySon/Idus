@@ -1,4 +1,4 @@
-package com.example.idus.presentation.dto;
+package com.example.idus.presentation.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
