@@ -71,24 +71,46 @@ public class UserService {
         return OrderQueryResponse.builder().items(orderInfos).build();
     }
 
+//    public MembersQueryResponse getUsers(String emailSubString, String nameSubString, long pageNumber) {
+//        List<User> users = getUsers(emailSubString, nameSubString);
+//
+//        List<OrderItemQuery> memberInfos = getMemberInfos(users);
+//
+//        long total = memberInfos.size();
+//        long totalPages = (int) Math.ceil(total / PAGE_COUNT);
+//        boolean hasNext = pageNumber + 1 < totalPages;
+//
+//        return MembersQueryResponse.builder()
+//                .items(Lists.newArrayList(
+//                        memberInfos.subList(
+//                                (int) (pageNumber * PAGE_COUNT),
+//                                Math.min((int) (pageNumber * PAGE_COUNT + PAGE_COUNT), memberInfos.size()))
+//                        )
+//                )
+//                .pageCount(PAGE_COUNT)
+//                .totalContent(memberInfos.size())
+//                .totalPage((long) Math.ceil(total / PAGE_COUNT))
+//                .hasNext(pageNumber + 1 < totalPages)
+//                .isLast(!hasNext)
+//                .build();
+//    }
+
     public MembersQueryResponse getUsers(String emailSubString, String nameSubString, long pageNumber) {
-        List<User> users = getUsers(emailSubString, nameSubString);
+        List<OrderItemQuery> orderItemQueries = userRepository.findTopByUserOrderByOrderDateDesc(nameSubString);
 
-        List<MemberInfo> memberInfos = getMemberInfos(users);
-
-        long total = memberInfos.size();
+        long total = orderItemQueries.size();
         long totalPages = (int) Math.ceil(total / PAGE_COUNT);
         boolean hasNext = pageNumber + 1 < totalPages;
 
         return MembersQueryResponse.builder()
                 .items(Lists.newArrayList(
-                        memberInfos.subList(
+                        orderItemQueries.subList(
                                 (int) (pageNumber * PAGE_COUNT),
-                                Math.min((int) (pageNumber * PAGE_COUNT + PAGE_COUNT), memberInfos.size()))
+                                Math.min((int) (pageNumber * PAGE_COUNT + PAGE_COUNT), orderItemQueries.size()))
                         )
                 )
                 .pageCount(PAGE_COUNT)
-                .totalContent(memberInfos.size())
+                .totalContent(orderItemQueries.size())
                 .totalPage((long) Math.ceil(total / PAGE_COUNT))
                 .hasNext(pageNumber + 1 < totalPages)
                 .isLast(!hasNext)
